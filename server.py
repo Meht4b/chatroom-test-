@@ -19,6 +19,7 @@ while True:
     for unread_socket in read_socket:
         if unread_socket == server_socket:
             conn,addr = unread_socket.accept()
+            print(conn,'connected')
         else:
             handle(unread_socket)
 
