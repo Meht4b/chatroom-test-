@@ -14,26 +14,27 @@ socket_list = [server_socket]
 client_list = {}
 
 def broadcast(list,msg):
-    print('broadcast')
     for socket in list:
         socket.send(pickle.dumps(msg))
 
 def handle(conn):
-    print('recvd')
+
     broadcast(client_list.keys(),pickle.loads(conn.recv(100)))
-    print('broadcasted')
+
 
 while True:
+    print('1')
 
     read_socket,_,error_socket = select.select(socket_list,[],socket_list)
-
+    print(read_socket)
+    print('2')
     for unread_socket in read_socket:
         if unread_socket == server_socket:
             conn,addr = unread_socket.accept()
             print(addr)
-            client_list[conn]=pickle.loads(conn.recv(100))
+            client_list[conn]=pickle.loads(conn.recv(1000))
             broadcast(client_list.keys(),f'{client_list[conn]} joined')
-
+            print('ej')
         else:
             print('laksdjlk')
             handle(unread_socket)
